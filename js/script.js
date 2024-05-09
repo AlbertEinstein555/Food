@@ -271,20 +271,20 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 		//наш код при помощи await дожидается окончания работы promise и только потом возвращает его
 		return await res.json();
-	}; 
+	};
 
 	//при помощи сервера получаем массив с menu
 	getResource('http://localhost:3000/menu')
 		.then(data => {
 			//переберем массив и выполним деструктуризацию объекта внутри него при помощи {}
-			data.forEach(({img, altimg, title, descr, price}) => {
+			data.forEach(({ img, altimg, title, descr, price }) => {
 				//передаем эти части вовнутрь конструктора, который создает
 				new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
 			});
-	   })
+		})
 
 
-	//Forms - эта часть будет видна, если запустить ее в open server
+	//Forms - эта часть будет видна и будет полноценно работать, если запустить ее в open server и включить JSON-server
 
 
 	//получим все формы на странице по тегу
@@ -310,11 +310,11 @@ window.addEventListener('DOMContentLoaded', () => {
 		//fetch возвращает promise
 		const res = await fetch(url, {
 			method: "POST",
-				headers: {
-					'Content-type': 'application/json'
-				},
-				//тело, которое нужно отправлять
-				body: data
+			headers: {
+				'Content-type': 'application/json'
+			},
+			//тело, которое нужно отправлять
+			body: data
 		});
 		//наш код при помощи await дожидается окончания работы promise и только потом возвращает его
 		return await res.json();
@@ -350,18 +350,18 @@ window.addEventListener('DOMContentLoaded', () => {
 			const json = JSON.stringify(Object.fromEntries(formData.entries()));
 			//из postData вернется promise, который обработаем при помощи then и отправим json на сервер
 			postData('http://localhost:3000/requests', json)
-			.then(data => {
-				   //data - данные, которые возвращаются из промиса
+				.then(data => {
+					//data - данные, которые возвращаются из промиса
 					console.log(data);
 					//в случае успешного запроса помещаем другое сообщение
 					showThanksModal(message.success);
 					//удаляем блок со страницы
 					statusMessage.remove();
-			}).catch(() => {
-				showThanksModal(message.failure);
-			}).finally(() => {
-				form.reset();
-			});
+				}).catch(() => {
+					showThanksModal(message.failure);
+				}).finally(() => {
+					form.reset();
+				});
 		});
 	}
 	//говорим спасибо при закрытии модального окна
@@ -396,6 +396,68 @@ window.addEventListener('DOMContentLoaded', () => {
 	fetch('http://localhost:3000/menu')
 		.then(data => data.json())
 		.then(res => console.log(res));
+
+
+	//Slider
+
+	//создаем переменные, которые будут получаться со страницы
+	//слайды по классу
+	const slides = document.querySelectorAll('.offer__slide'),
+		//стрелка previous
+		prev = document.querySelector('.offer__slider-prev'),
+		//стрелка next
+		next = document.querySelector('.offer__slider-next');
+		//номер слайдера
+		total = document.querySelector('#total'),
+		//блок, отображающий текущий слайд
+		current = document.querySelector('#current');
+	//index, определяющий текущее положение в слайдере с начальным положением 1
+	let slideIndex = 1;
+
+	//проинициализируем наш слайдер, поместив вовнутрь начальное значение
+	showSlides(slideIndex);
+
+	//если количество слайдов меньше 10, то добавим 0 перед числом
+	if (slides.length < 10) {
+		total.textContent = `0${slides.length}`;
+	} else {
+		total.textContent = slides.length;
+	}
+
+	//функция по отображению и скрытию слайдера, принимающую slideIndex в качестве аргумента
+	function showSlides(n) {
+		//условия для граничных значений слайдера
+		if (n > slides.length) {
+			//перемещаемся в самое начало, если переместились в самую правую границу
+			slideIndex = 1
+		}
+		//похожая операция, но в обратную сторону
+		if (n < 1) {
+			slideIndex = slides.length;
+		}
+		//обращаемся ко всем слайдам в слайдере
+		slides.forEach(item => item.style.display = 'none');
+		//покажем нужный слайд. Так как первый слайд под индексом 0, то ставим -1
+		slides[slideIndex - 1].style.display = 'block'
+
+		//нумерация для текущего слайда
+		//если количество слайдов меньше 10, то добавим 0 перед числом
+		if (slides.length < 10) {
+			current.textContent = `0${slideIndex}`;
+		} else {
+			current.textContent = slideIndex;
+		}
+	}
+	//функция, увеличивающая или уменьшающая slideIndex при перелистывании
+	function plusSlides(n) {
+		showSlides(slideIndex += n);
+	}
+	prev.addEventListener('click', () => {
+		plusSlides(-1);
+	});
+	next.addEventListener('click', () => {
+		plusSlides(+1);
+	});
 });
 
 
