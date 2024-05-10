@@ -403,12 +403,14 @@ window.addEventListener('DOMContentLoaded', () => {
 	//создаем переменные, которые будут получаться со страницы
 	//слайды по классу
 	const slides = document.querySelectorAll('.offer__slide'),
+		//переменная для модификации слайдера, чтобы прописать слайдеру position relative 
+		slider = document.querySelector('.offer__slider'),
 		//стрелка previous
 		prev = document.querySelector('.offer__slider-prev'),
 		//стрелка next
 		next = document.querySelector('.offer__slider-next');
-		//номер слайдера
-		total = document.querySelector('#total'),
+	//номер слайдера
+	total = document.querySelector('#total'),
 		//блок, отображающий текущий слайд
 		current = document.querySelector('#current');
 	//index, определяющий текущее положение в слайдере с начальным положением 1
@@ -448,15 +450,97 @@ window.addEventListener('DOMContentLoaded', () => {
 			current.textContent = slideIndex;
 		}
 	}
+
+	//модификация слайдера
+	//все элементы внутри слайдера, спозиционированные абсолютно, будут нормально отображаться
+	slider.style.position = 'relative';
+	//создаем обертку для всех точек и стилизуем ее
+	const indicators = document.createElement('ol'),
+		dots = [];
+	indicators.classList.add('carousel-indicators');
+	//стилизуем
+	indicators.style.cssText = `
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 15;
+		display: flex;
+		justify-content: center;
+		margin-right: 15%;
+		margin-left: 15%;
+		list-style: none;
+	`;
+	//поместим обертку вовнутрь слайдера
+	slider.append(indicators);
+	//создадим определенное количество точек при помощи цикла
+	//цикл закончится после того как закончатся слайды
+	for (let i = 0; i < slides.length; i++) {
+		//создаем точки
+		const dot = document.createElement('li');
+		//каждой точке присвоим атрибут data-slide-to и установим нумерацию с 1
+		dot.setAttribute('data-slide-to', i + 1);
+		//стилизуем
+		dot.style.cssText = `
+			box-sizing: content-box;
+			flex: 0 1 auto;
+			width: 30px;
+			height: 6px;
+			margin-right: 3px;
+			margin-left: 3px;
+			cursor: pointer;
+			background-color: #fff;
+			background-clip: padding-box;
+			border-top: 10px solid transparent;
+			border-bottom: 10px solid transparent;
+			opacity: .5;
+			transition: opacity .6s ease;
+		`;
+		//пропишем прозрачность для активной точки
+		if (i == 0) {
+			dot.style.opacity = 1;
+		}
+		indicators.append(dot);
+		dots.push(dot);
+	}
+
+
 	//функция, увеличивающая или уменьшающая slideIndex при перелистывании
 	function plusSlides(n) {
 		showSlides(slideIndex += n);
 	}
 	prev.addEventListener('click', () => {
 		plusSlides(-1);
+		//модификация слайдера
+		//работаем с точками, чтобы переключать подсветку при переключении слайдера
+		//задаем начальные стили для точек
+		dots.forEach(dot => dot.style.opacity = '.5');
+		//прозрачность для текущей точки
+		dots[slideIndex - 1].style.opacity = 1;
 	});
 	next.addEventListener('click', () => {
 		plusSlides(+1);
+		//модификация слайдера
+		//работаем с точками, чтобы переключать подсветку при переключении слайдера
+		//задаем начальные стили для точек
+		dots.forEach(dot => dot.style.opacity = '.5');
+		//прозрачность для текущей точки
+		dots[slideIndex - 1].style.opacity = 1;
+	});
+	//модификация слайдера
+	//сделаем возможным переключение слайдеров по точкам
+	dots.forEach(dot => {
+		dot.addEventListener('click', (e) => {
+			// Получаем атрибут data-slide-to
+			const slideTo = parseInt(e.target.getAttribute('data-slide-to'));
+			// Устанавливаем slideIndex равным номеру слайда, на который нажали
+			slideIndex = slideTo;
+			// Отображаем соответствующий слайд
+			showSlides(slideIndex);
+			// Обновляем стили для точек
+			dots.forEach(dot => dot.style.opacity = '.5');
+			dots[slideIndex - 1].style.opacity = 1; // Выбранная точка становится непрозрачной
+		});
 	});
 });
 
