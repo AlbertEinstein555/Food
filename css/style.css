@@ -448,8 +448,10 @@ a {
 }
 
 .calculating__result span {
-	font-size: 42px
+	font-size: 17px;
+	color: red;
 }
+
 
 .menu {
 	padding: 40px 0 50px 0
@@ -715,12 +717,25 @@ a {
 	margin: 0 auto
 }
 
-.hide{
+.hide {
 	display: none;
 }
 
-.show{
+.show {
 	display: block;
 }
 
-.fade{animation-name: fade;animation-duration: 1.5s;}@keyframes fade{from{opacity: 0.1;}to{opacity: 1;}}
+.fade {
+	animation-name: fade;
+	animation-duration: 1.5s;
+}
+
+@keyframes fade {
+	from {
+		opacity: 0.1;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
