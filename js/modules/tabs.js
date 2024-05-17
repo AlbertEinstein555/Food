@@ -1,13 +1,13 @@
 //TABS
 //создадим функцию для вызова этого модуля в нужный момент
-function tabs() {
+function tabs(tabsSelector, tabsContentSelector, tabsParentSelector, activeClass) {
 		//в начале скриптов получаем переменные, с которыми будем взаимодействовать
-	//1 - табы, на которые будем кликать
-	let tabs = document.querySelectorAll('.tabheader__item'),
+		//1 - табы, на которые будем кликать
+	let tabs = document.querySelectorAll(tabsSelector),
 		//2 - весь контент, который будет находиться в верстке
-		tabsContent = document.querySelectorAll('.tabcontent'),
+		tabsContent = document.querySelectorAll(tabsContentSelector),
 		//3 - родитель, содержащий все табы
-		tabsParent = document.querySelector('.tabheader__items');
+		tabsParent = document.querySelector(tabsParentSelector);
 
 	//скроем все ненужные табы
 	function hideTabContent() {
@@ -21,7 +21,7 @@ function tabs() {
 
 		//работаем с классом активности. Точку не ставим, так как у нас classList
 		tabs.forEach(item => {
-			item.classList.remove('tabheader__item_active');
+			item.classList.remove(activeClass);
 		});
 	}
 
@@ -30,7 +30,7 @@ function tabs() {
 		//обращаемся к конкретному элементу
 		tabsContent[i].classList.add('show', 'fade');
 		tabsContent[i].classList.remove('hide');
-		tabs[i].classList.add('tabheader__item_active');
+		tabs[i].classList.add(activeClass);
 	}
 
 	//вызываем функцию
@@ -42,7 +42,9 @@ function tabs() {
 		//event target определим в определенную переменную, так как будем применять его часто
 		const target = event.target;
 		//при помощи contains определяем, что мы точно кликнули в tab
-		if (target && target.classList.contains('tabheader__item')) {
+		//подставим tabsSelector и удалим точку от нашей строки
+		//slice(1) формирует новую строку без первого символа. Мы это делаем потому, что в файле script.js .tabheader__item с точкой, так как это класс, а мы используем значение с таким же названием
+		if (target && target.classList.contains(tabsSelector.slice(1))) {
 			//item - это tab
 			//i - номер по порядку
 			tabs.forEach((item, i) => {
@@ -58,5 +60,5 @@ function tabs() {
 	});
 }
 
-//экспортируем эту функцию
-module.exports = tabs;
+//экспортируем эту функцию в стандартах ES6
+export default tabs;

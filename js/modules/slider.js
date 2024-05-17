@@ -8,9 +8,9 @@
 	//стрелка previous
 	prev = document.querySelector('.offer__slider-prev'),
 	//стрелка next
-	next = document.querySelector('.offer__slider-next');
-//номер слайдера
-total = document.querySelector('#total'),
+	next = document.querySelector('.offer__slider-next'),
+	//номер слайдера
+	total = document.querySelector('#total'),
 	//блок, отображающий текущий слайд
 	current = document.querySelector('#current');
 //index, определяющий текущее положение в слайдере с начальным положением 1
@@ -147,5 +147,5 @@ dots.forEach(dot => {
 
 	}
 	
-	//экспортируем эту функцию
-	module.exports = slider;
+	//экспортируем эту функцию в стандартах ES6
+	export default slider;

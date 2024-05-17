@@ -1,12 +1,17 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./js/modules/calculator.js":
 /*!**********************************!*\
   !*** ./js/modules/calculator.js ***!
   \**********************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 //Calculator
 function calculator() {
 	//получаем элемент, в который будем все записывать
@@ -166,8 +171,8 @@ function calculator() {
 }
 	
 
-	//экспортируем эту функцию
-	module.exports = calculator;
+	//экспортируем эту функцию в стандартах ES6
+	/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (calculator);
 
 /***/ }),
 
@@ -175,7 +180,13 @@ function calculator() {
 /*!*****************************!*\
   !*** ./js/modules/cards.js ***!
   \*****************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/services */ "./js/services/services.js");
 
 function cards() {
 	//Используем классы для карточек
@@ -234,20 +245,9 @@ function cards() {
 		}
 	}
 
-	const getResource = async (url) => {
-		//fetch возвращает promise
-		const res = await fetch(url);
-		//если выкинет ошибку, то сработает catch
-		if (!res.ok) {
-			//throw выкидывает новую ошибку
-			throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-		}
-		//наш код при помощи await дожидается окончания работы promise и только потом возвращает его
-		return await res.json();
-	};
 
 	//при помощи сервера получаем массив с menu
-	getResource('http://localhost:3000/menu')
+	(0,_services_services__WEBPACK_IMPORTED_MODULE_0__.getResource)('http://localhost:3000/menu')
 		.then(data => {
 			//переберем массив и выполним деструктуризацию объекта внутри него при помощи {}
 			data.forEach(({ img, altimg, title, descr, price }) => {
@@ -257,8 +257,8 @@ function cards() {
 		})
 }
 
-//экспортируем эту функцию
-module.exports = cards;
+//экспортируем эту функцию в стандартах ES6
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cards);
 
 /***/ }),
 
@@ -266,13 +266,25 @@ module.exports = cards;
 /*!*****************************!*\
   !*** ./js/modules/forms.js ***!
   \*****************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./js/modules/modal.js");
+/* harmony import */ var _services_services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/services */ "./js/services/services.js");
 	//Forms - эта часть будет видна и будет полноценно работать, если запустить ее в open server и включить JSON-server
-	function forms() {
+	//Импорты всегда должны быть в самом верху
+	//Используем синтаксис именованных импортов, чтобы использовать функции из модуля modal
+	
+	//функция postData находится в файле services
+	//в пути выходим на одну папку выше и заходим в нужную
+	
+
+	function forms(formSelector, modalTimerId) {
 		//получим все формы на странице по тегу
-	const forms = document.querySelectorAll('form');
+	const forms = document.querySelectorAll(formSelector);
 
 	//создадим сообщение о результате
 	const message = {
@@ -286,23 +298,6 @@ module.exports = cards;
 	forms.forEach(item => {
 		bindPostData(item);
 	});
-
-	//создадим переменную отвечающую за постинг данных используя Function expression
-	//При помощи async объявляем, что внутри функции есть асинхронный код.Упрощает работу с ними
-	//await его парный оператор  
-	const postData = async (url, data) => {
-		//fetch возвращает promise
-		const res = await fetch(url, {
-			method: "POST",
-			headers: {
-				'Content-type': 'application/json'
-			},
-			//тело, которое нужно отправлять
-			body: data
-		});
-		//наш код при помощи await дожидается окончания работы promise и только потом возвращает его
-		return await res.json();
-	};
 
 
 
@@ -333,7 +328,7 @@ module.exports = cards;
 			//stringify превращает обычный объект в JSON
 			const json = JSON.stringify(Object.fromEntries(formData.entries()));
 			//из postData вернется promise, который обработаем при помощи then и отправим json на сервер
-			postData('http://localhost:3000/requests', json)
+			(0,_services_services__WEBPACK_IMPORTED_MODULE_1__.postData)('http://localhost:3000/requests', json)
 				.then(data => {
 					//data - данные, которые возвращаются из промиса
 					console.log(data);
@@ -354,7 +349,7 @@ module.exports = cards;
 		//скрываем элемент перед показом модального окна при помощи стилей
 		prevModalDialog.classList.add('hide')
 		//когда вызывается showTanksModal, то внутри подвязывается openModal, которая отвечает за открытие модальных окон
-		openModal();
+		;(0,_modal__WEBPACK_IMPORTED_MODULE_0__.openModal)('.modal');
 
 		//создаем новый контент
 		const thanksModal = document.createElement('div');
@@ -371,7 +366,8 @@ module.exports = cards;
 			thanksModal.remove();
 			prevModalDialog.classList.add('show');
 			prevModalDialog.classList.remove('hide');
-			closeModal();
+			//передаем селектор модального окна, которое будем закывать
+			(0,_modal__WEBPACK_IMPORTED_MODULE_0__.closeModal)('.modal', modalTimerId);
 		}, 4000);
 	}
 
@@ -384,8 +380,8 @@ module.exports = cards;
 
 	
 
-	//экспортируем эту функцию
-	module.exports = forms;
+	//экспортируем эту функцию в стандартах ES6
+	/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (forms);
 
 /***/ }),
 
@@ -393,85 +389,107 @@ module.exports = cards;
 /*!*****************************!*\
   !*** ./js/modules/modal.js ***!
   \*****************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-//Modal
-function modal() {
-	//используем data-атрибуты из html. Пишем их в квадратных скобках
-	//переменная для кнопок модального окна
-	const modalTrigger = document.querySelectorAll('[data-modal]'),
-		//переменная, отвечающая за модальное окно
-		modal = document.querySelector('.modal'),
-		//переменая для кнопки, отвечающей за закрытие модального окна
-		modalCloseBtn = document.querySelector('[data-close]');
-
-	//упрощаем функцию, отвечающую за открытие окна	
-	function openModal() {
-		modal.classList.add('show');
-		modal.classList.remove('hide');
-		//уберем возможность скролла страницы при вызове окна
-		document.body.style.overflow = 'hidden';
-		//очистим интервал появления модального окна, если оно уже было открыто пользователем
-		clearInterval(modalTimerId);
-	}
-	//используем эту функцию, отвечающую за открытие окна
-	//переберем псевдомассив, чтобы навесить на него обработчик событий		
-	modalTrigger.forEach(btn => {
-		btn.addEventListener('click', openModal);
-	});
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   closeModal: () => (/* binding */ closeModal),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   openModal: () => (/* binding */ openModal)
+/* harmony export */ });
+	//Modal
+	//напишем функции, отвечающую за открытие и закрытие окна
+	//пишем их в начале, чтобы они работали как отдельные функциональности	
 	//создадим функцию, так как имеем повторяющийся участок кода
-	function closeModal() {
-		modal.classList.add('hide');
+	//используем селекторы, когда будем вызывать функцию modal. Функция будет определять элемент и работать с ним
+	function closeModal(modalSelector) {
+		const modal = document.querySelector(modalSelector);
+		if (modal) {
+			modal.classList.add('hide');
 		modal.classList.remove('show');
 		//добавим возможность скролла страницы при вызове окна
 		//оставим пустую строку и браузер поставит значение по умолчанию
 		document.body.style.overflow = '';
-	}
-
-	//создадим функцию, отвечающую за закрытие окна		
-	modalCloseBtn.addEventListener('click', closeModal);
-
-	//создадим функцию, позволяющую закрывать окно через esc или щелчком на пустое пространство	
-	modal.addEventListener('click', (e) => {
-		//e - объект события
-		//если место куда кликнул пользователь будет совпадать c modal
-		if (e.target === modal) {
-			//вызываем функцию для повторяющейся части кода
-			closeModal();
-		}
-	});
-
-	//пропишем событие keydown, которое происходит когда нажимается кнопка
-	document.addEventListener('keydown', (e) => {
-		//отслеживаем код конкретной клавиши
-		//задаем условие, чтобы событие срабатывало только на открытом окне
-		if (e.code === 'Escape' && modal.classList.contains('show')) {
-			closeModal();
-		}
-	});
-
-	//Реализуем задачу по вызову модального окна через определенный промежуток времени
-	//1000mc = 1c
-	const modalTimerId = setTimeout(openModal);
-
-	//Реализуем задачу по вызову модального окна при долистывании до конца страницы
-
-	//создадим функцию, чтобы окно появлялось только 1 раз, а не при каждом долистывании
-	function showModalByScroll() {
-		if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
-			openModal();
-			//чтобы удалить обработчик событий, нужно делать ссылку на функцию
-			//которая исполнялась как этот обработчик
-			window.removeEventListener('scroll', showModalByScroll);
 		}
 	}
-	window.addEventListener('scroll', showModalByScroll);
-}
+	//передаем в качестве аргументов селектор модального окна и уникальный идентификатор таймера, который был запущен
+	function openModal(modalSelector, modalTimerId) {
+		const modal = document.querySelector(modalSelector);
+		if (modal) {
+			modal.classList.add('show');
+		modal.classList.remove('hide');
+		//уберем возможность скролла страницы при вызове окна
+		document.body.style.overflow = 'hidden';
+		console.log(modalTimerId);
+		//если modalTimerId существует, то будем запускать clearInterval
+		if (modalTimerId) {
+				//очистим интервал появления модального окна, если оно уже было открыто пользователем
+				clearInterval(modalTimerId);
+			}
+		}
+	}
+
+	//передаем modalTimerId (который будет приходить из script.js) везде где будет функция openModal внутри функции modal
+	function modal(triggerSelector, modalSelector, modalTimerId) {
+		//используем data-атрибуты из html. Пишем их в квадратных скобках
+		//переменная для кнопок модального окна
+		const modalTrigger = document.querySelectorAll(triggerSelector),
+				//переменная, отвечающая за модальное окно
+				modal = document.querySelector(modalSelector),
+				//переменая для кнопки, отвечающей за закрытие модального окна
+				modalCloseBtn = document.querySelector('[data-close]');
+
+		//используем функцию, отвечающую за открытие окна
+		//переберем псевдомассив, чтобы навесить на него обработчик событий		
+		modalTrigger.forEach(btn => {
+			//создадим стрелочную функцию, которая оборачивает вызывающуюся функцию и будет ее вызывать внутри себя
+			btn.addEventListener('click', () => openModal(modalSelector, modalTimerId));
+		});
+
+		//создадим функцию, отвечающую за закрытие окна		
+		// Добавляем обработчик события для кнопки закрытия модального окна
+		if (modalCloseBtn) {
+			modalCloseBtn.addEventListener('click', () => closeModal(modalSelector));
+	  	}
+
+		//создадим функцию, позволяющую закрывать окно через esc или щелчком на пустое пространство	
+		modal.addEventListener('click', (e) => {
+			//e - объект события
+			//если место куда кликнул пользователь будет совпадать c modal
+			if (e.target === modal) {
+				//вызываем функцию для повторяющейся части кода
+				closeModal(modalSelector);
+			}
+		});
+
+		//пропишем событие keydown, которое происходит когда нажимается кнопка
+		document.addEventListener('keydown', (e) => {
+			//отслеживаем код конкретной клавиши
+			//задаем условие, чтобы событие срабатывало только на открытом окне
+			if (e.code === 'Escape' && modal.classList.contains('show')) {
+				closeModal(modalSelector);
+			}
+		});
+
+		//Реализуем задачу по вызову модального окна при долистывании до конца страницы
+
+		//создадим функцию, чтобы окно появлялось только 1 раз, а не при каждом долистывании
+		function showModalByScroll() {
+			if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
+				openModal(modalSelector, modalTimerId);
+				//чтобы удалить обработчик событий, нужно делать ссылку на функцию
+				//которая исполнялась как этот обработчик
+				window.removeEventListener('scroll', showModalByScroll);
+			}
+		}
+		window.addEventListener('scroll', showModalByScroll);
+	}
+
+	//экспортируем эту функцию в стандартах ES6
+	/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modal);
+	//сделаем 2 именнованых экспорта
 	
-
-	//экспортируем эту функцию
-	module.exports = modal;
+	
 
 /***/ }),
 
@@ -479,8 +497,12 @@ function modal() {
 /*!******************************!*\
   !*** ./js/modules/slider.js ***!
   \******************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 	//Slider
 	function slider() {
 		//создаем переменные, которые будут получаться со страницы
@@ -491,9 +513,9 @@ function modal() {
 	//стрелка previous
 	prev = document.querySelector('.offer__slider-prev'),
 	//стрелка next
-	next = document.querySelector('.offer__slider-next');
-//номер слайдера
-total = document.querySelector('#total'),
+	next = document.querySelector('.offer__slider-next'),
+	//номер слайдера
+	total = document.querySelector('#total'),
 	//блок, отображающий текущий слайд
 	current = document.querySelector('#current');
 //index, определяющий текущее положение в слайдере с начальным положением 1
@@ -630,8 +652,8 @@ dots.forEach(dot => {
 
 	}
 	
-	//экспортируем эту функцию
-	module.exports = slider;
+	//экспортируем эту функцию в стандартах ES6
+	/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (slider);
 
 /***/ }),
 
@@ -639,18 +661,22 @@ dots.forEach(dot => {
 /*!****************************!*\
   !*** ./js/modules/tabs.js ***!
   \****************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 //TABS
 //создадим функцию для вызова этого модуля в нужный момент
-function tabs() {
+function tabs(tabsSelector, tabsContentSelector, tabsParentSelector, activeClass) {
 		//в начале скриптов получаем переменные, с которыми будем взаимодействовать
-	//1 - табы, на которые будем кликать
-	let tabs = document.querySelectorAll('.tabheader__item'),
+		//1 - табы, на которые будем кликать
+	let tabs = document.querySelectorAll(tabsSelector),
 		//2 - весь контент, который будет находиться в верстке
-		tabsContent = document.querySelectorAll('.tabcontent'),
+		tabsContent = document.querySelectorAll(tabsContentSelector),
 		//3 - родитель, содержащий все табы
-		tabsParent = document.querySelector('.tabheader__items');
+		tabsParent = document.querySelector(tabsParentSelector);
 
 	//скроем все ненужные табы
 	function hideTabContent() {
@@ -664,7 +690,7 @@ function tabs() {
 
 		//работаем с классом активности. Точку не ставим, так как у нас classList
 		tabs.forEach(item => {
-			item.classList.remove('tabheader__item_active');
+			item.classList.remove(activeClass);
 		});
 	}
 
@@ -673,7 +699,7 @@ function tabs() {
 		//обращаемся к конкретному элементу
 		tabsContent[i].classList.add('show', 'fade');
 		tabsContent[i].classList.remove('hide');
-		tabs[i].classList.add('tabheader__item_active');
+		tabs[i].classList.add(activeClass);
 	}
 
 	//вызываем функцию
@@ -685,7 +711,9 @@ function tabs() {
 		//event target определим в определенную переменную, так как будем применять его часто
 		const target = event.target;
 		//при помощи contains определяем, что мы точно кликнули в tab
-		if (target && target.classList.contains('tabheader__item')) {
+		//подставим tabsSelector и удалим точку от нашей строки
+		//slice(1) формирует новую строку без первого символа. Мы это делаем потому, что в файле script.js .tabheader__item с точкой, так как это класс, а мы используем значение с таким же названием
+		if (target && target.classList.contains(tabsSelector.slice(1))) {
 			//item - это tab
 			//i - номер по порядку
 			tabs.forEach((item, i) => {
@@ -701,8 +729,8 @@ function tabs() {
 	});
 }
 
-//экспортируем эту функцию
-module.exports = tabs;
+//экспортируем эту функцию в стандартах ES6
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (tabs);
 
 /***/ }),
 
@@ -710,8 +738,12 @@ module.exports = tabs;
 /*!*****************************!*\
   !*** ./js/modules/timer.js ***!
   \*****************************/
-/***/ ((module) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 //TIMER
 	function timer() {
 		//Создадим переменную, определяющую deadline
@@ -788,8 +820,55 @@ module.exports = tabs;
 
 	}
 	
-	//экспортируем эту функцию
-	module.exports = timer;
+	//экспортируем эту функцию в стандартах ES6
+	/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (timer);
+
+/***/ }),
+
+/***/ "./js/services/services.js":
+/*!*********************************!*\
+  !*** ./js/services/services.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getResource: () => (/* binding */ getResource),
+/* harmony export */   postData: () => (/* binding */ postData)
+/* harmony export */ });
+	//создадим переменную отвечающую за постинг данных используя Function expression
+	//она работает с сервером и может пригодится где угодно
+	//При помощи async объявляем, что внутри функции есть асинхронный код.Упрощает работу с ними
+	//await его парный оператор  
+	const postData = async (url, data) => {
+		//fetch возвращает promise
+		const res = await fetch(url, {
+			method: "POST",
+			headers: {
+				'Content-type': 'application/json'
+			},
+			//тело, которое нужно отправлять
+			body: data
+		});
+		//наш код при помощи await дожидается окончания работы promise и только потом возвращает его
+		return await res.json();
+	};
+
+	const getResource = async (url) => {
+		//fetch возвращает promise
+		const res = await fetch(url);
+		//если выкинет ошибку, то сработает catch
+		if (!res.ok) {
+			//throw выкидывает новую ошибку
+			throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+		}
+		//наш код при помощи await дожидается окончания работы promise и только потом возвращает его
+		return await res.json();
+	};
+
+	//экспортируем функции, чтобы иметь возможность использовать их где угодно в проекте
+	
+	
 
 /***/ })
 
@@ -820,34 +899,82 @@ module.exports = tabs;
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 /*!**********************!*\
   !*** ./js/script.js ***!
   \**********************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/tabs */ "./js/modules/tabs.js");
+/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modal */ "./js/modules/modal.js");
+/* harmony import */ var _modules_timer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/timer */ "./js/modules/timer.js");
+/* harmony import */ var _modules_cards__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/cards */ "./js/modules/cards.js");
+/* harmony import */ var _modules_calculator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/calculator */ "./js/modules/calculator.js");
+/* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/forms */ "./js/modules/forms.js");
+/* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/slider */ "./js/modules/slider.js");
 //подключим bandle.js в основной файл
+	//объеденим все файлы импортировав их в главный
+	//создаем переменные для модулей, указывая путь к ним в стандартах ES6
+	//подключаем их до обработчика событий 'DOMContentLoaded'. Порядок подключения не важен
+	
+	
+	
+	
+	
+	
+	
+	
 //назначим главный обработчик событий
 window.addEventListener('DOMContentLoaded', () => {
-	//объеденим все файлы импортировав их в главный
-	//создаем переменные для модулей, указывая путь к ним
-	//порядок подключения не важен
-	const tabs = __webpack_require__(/*! ./modules/tabs */ "./js/modules/tabs.js"),
-			modal = __webpack_require__(/*! ./modules/modal */ "./js/modules/modal.js"),
-			timer = __webpack_require__(/*! ./modules/timer */ "./js/modules/timer.js"),
-			cards = __webpack_require__(/*! ./modules/cards */ "./js/modules/cards.js"),
-			calculator = __webpack_require__(/*! ./modules/calculator */ "./js/modules/calculator.js"),
-			forms = __webpack_require__(/*! ./modules/forms */ "./js/modules/forms.js"),
-			slider = __webpack_require__(/*! ./modules/slider */ "./js/modules/slider.js");
+		//Реализуем задачу по вызову модального окна через определенный промежуток времени
+		//1000mc = 1c
+		//запустим стрелочную функцию, которая запустит функцию openModal внутри себя череззаданный промежуток времени
+		const modalTimerId = setTimeout(() => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__.openModal)('.modal', modalTimerId), 300000);
 
 	//вызываем функции
-	tabs();
-	modal();
-	timer();
-	cards();
-	calculator();
-	forms();
-	slider(); 		
+	//подставим аргументы tabsSelector, tabsContentSelector, tabsParentSelector, activeClass
+	(0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__["default"])('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
+	//подставим аргументы из переменных modalTrigger и modal
+	//triggerSelector - Селектор для элементов, которые будут открывать модальное окно.
+	//modalSelector - Селектор для самого модального окна.
+	//modalTimerId - Идентификатор таймера, который используется для автоматического открытия модального окна через определенное время.
+	(0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('[data-modal]', '.modal', modalTimerId);
+	(0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])();
+	(0,_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])();
+	(0,_modules_calculator__WEBPACK_IMPORTED_MODULE_4__["default"])();
+	//modalTimerId - Идентификатор таймера, который может использоваться для управления временем открытия модального окна.
+	(0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])('form', modalTimerId);
+	(0,_modules_slider__WEBPACK_IMPORTED_MODULE_6__["default"])(); 		
 });
 //сборщик webpack запускаем прописав в терминале npx webpack
 //добавить второй терминал можно нажав на +

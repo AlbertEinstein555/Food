@@ -1,8 +1,14 @@
-
 	//Forms - эта часть будет видна и будет полноценно работать, если запустить ее в open server и включить JSON-server
-	function forms() {
+	//Импорты всегда должны быть в самом верху
+	//Используем синтаксис именованных импортов, чтобы использовать функции из модуля modal
+	import { closeModal, openModal } from "./modal";
+	//функция postData находится в файле services
+	//в пути выходим на одну папку выше и заходим в нужную
+	import {postData} from "../services/services";
+
+	function forms(formSelector, modalTimerId) {
 		//получим все формы на странице по тегу
-	const forms = document.querySelectorAll('form');
+	const forms = document.querySelectorAll(formSelector);
 
 	//создадим сообщение о результате
 	const message = {
@@ -16,23 +22,6 @@
 	forms.forEach(item => {
 		bindPostData(item);
 	});
-
-	//создадим переменную отвечающую за постинг данных используя Function expression
-	//При помощи async объявляем, что внутри функции есть асинхронный код.Упрощает работу с ними
-	//await его парный оператор  
-	const postData = async (url, data) => {
-		//fetch возвращает promise
-		const res = await fetch(url, {
-			method: "POST",
-			headers: {
-				'Content-type': 'application/json'
-			},
-			//тело, которое нужно отправлять
-			body: data
-		});
-		//наш код при помощи await дожидается окончания работы promise и только потом возвращает его
-		return await res.json();
-	};
 
 
 
@@ -84,7 +73,7 @@
 		//скрываем элемент перед показом модального окна при помощи стилей
 		prevModalDialog.classList.add('hide')
 		//когда вызывается showTanksModal, то внутри подвязывается openModal, которая отвечает за открытие модальных окон
-		openModal();
+		openModal('.modal');
 
 		//создаем новый контент
 		const thanksModal = document.createElement('div');
@@ -101,7 +90,8 @@
 			thanksModal.remove();
 			prevModalDialog.classList.add('show');
 			prevModalDialog.classList.remove('hide');
-			closeModal();
+			//передаем селектор модального окна, которое будем закывать
+			closeModal('.modal', modalTimerId);
 		}, 4000);
 	}
 
@@ -114,5 +104,5 @@
 
 	
 
-	//экспортируем эту функцию
-	module.exports = forms;
+	//экспортируем эту функцию в стандартах ES6
+	export default forms;

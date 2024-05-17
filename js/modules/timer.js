@@ -74,5 +74,5 @@
 
 	}
 	
-	//экспортируем эту функцию
-	module.exports = timer;
+	//экспортируем эту функцию в стандартах ES6
+	export default timer;

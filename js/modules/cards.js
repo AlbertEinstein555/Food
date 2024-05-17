@@ -1,3 +1,4 @@
+import {getResource} from "../services/services";
 function cards() {
 	//Используем классы для карточек
 	//название класса всегда с большой буквы
@@ -55,17 +56,6 @@ function cards() {
 		}
 	}
 
-	const getResource = async (url) => {
-		//fetch возвращает promise
-		const res = await fetch(url);
-		//если выкинет ошибку, то сработает catch
-		if (!res.ok) {
-			//throw выкидывает новую ошибку
-			throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-		}
-		//наш код при помощи await дожидается окончания работы promise и только потом возвращает его
-		return await res.json();
-	};
 
 	//при помощи сервера получаем массив с menu
 	getResource('http://localhost:3000/menu')
@@ -78,5 +68,5 @@ function cards() {
 		})
 }
 
-//экспортируем эту функцию
-module.exports = cards;
+//экспортируем эту функцию в стандартах ES6
+export default cards;

@@ -157,5 +157,5 @@ function calculator() {
 }
 	
 
-	//экспортируем эту функцию
-	module.exports = calculator;
+	//экспортируем эту функцию в стандартах ES6
+	export default calculator;
