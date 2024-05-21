@@ -1,18 +1,20 @@
 	//Slider
-	function slider() {
+	//container - это переменная slider
+	//slide - это переменная slides
+	function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter}) {
 		//создаем переменные, которые будут получаться со страницы
 	//слайды по классу
-	const slides = document.querySelectorAll('.offer__slide'),
+	const slides = document.querySelectorAll(slide),
 	//переменная для модификации слайдера, чтобы прописать слайдеру position relative 
-	slider = document.querySelector('.offer__slider'),
+	slider = document.querySelector(container),
 	//стрелка previous
-	prev = document.querySelector('.offer__slider-prev'),
+	prev = document.querySelector(prevArrow),
 	//стрелка next
-	next = document.querySelector('.offer__slider-next'),
+	next = document.querySelector(nextArrow),
 	//номер слайдера
-	total = document.querySelector('#total'),
+	total = document.querySelector(totalCounter),
 	//блок, отображающий текущий слайд
-	current = document.querySelector('#current');
+	current = document.querySelector(currentCounter);
 //index, определяющий текущее положение в слайдере с начальным положением 1
 let slideIndex = 1;
 

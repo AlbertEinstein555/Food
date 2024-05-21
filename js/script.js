@@ -25,12 +25,22 @@ window.addEventListener('DOMContentLoaded', () => {
 	//modalSelector - Селектор для самого модального окна.
 	//modalTimerId - Идентификатор таймера, который используется для автоматического открытия модального окна через определенное время.
 	modal('[data-modal]', '.modal', modalTimerId);
-	timer();
+	//в качестве аргументов устанавливаем селектор таймера и дату
+	timer('.timer', '2025-05-20');
 	cards();
 	calculator();
 	//modalTimerId - Идентификатор таймера, который может использоваться для управления временем открытия модального окна.
 	forms('form', modalTimerId);
-	slider(); 		
+	//передаем объект, содержащий настройки, которые деструктуризируются в файле slider.js
+	//порядок аргументов в объекте не важен
+	slider({
+		container: '.offer__slider',
+		nextArrow: '.offer__slider-next',
+		slide: '.offer__slide',
+		prevArrow: '.offer__slider-prev',
+		totalCounter: '#total',
+		currentCounter: '#current'
+	}); 		
 });
 //сборщик webpack запускаем прописав в терминале npx webpack
 //добавить второй терминал можно нажав на +

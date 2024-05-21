@@ -1,7 +1,6 @@
 //TIMER
-	function timer() {
-		//Создадим переменную, определяющую deadline
-	const deadline = '2024-05-11'
+	//аргументы в функции позволят менять данные динамически вместо переменной const deadline
+function timer(id, deadline) {
 	//Создадим функцию, которая будет получать разницу
 	//между deadline и текущей датой
 	function getTimeRemaining(endtime) {
@@ -70,9 +69,9 @@
 		}
 	}
 	//вызываем функцию с селектором и переменной
-	setClock('.timer', deadline);
+	setClock(id, deadline);
 
-	}
+}
 	
 	//экспортируем эту функцию в стандартах ES6
 	export default timer;

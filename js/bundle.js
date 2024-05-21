@@ -504,20 +504,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 	//Slider
-	function slider() {
+	//container - это переменная slider
+	//slide - это переменная slides
+	function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter}) {
 		//создаем переменные, которые будут получаться со страницы
 	//слайды по классу
-	const slides = document.querySelectorAll('.offer__slide'),
+	const slides = document.querySelectorAll(slide),
 	//переменная для модификации слайдера, чтобы прописать слайдеру position relative 
-	slider = document.querySelector('.offer__slider'),
+	slider = document.querySelector(container),
 	//стрелка previous
-	prev = document.querySelector('.offer__slider-prev'),
+	prev = document.querySelector(prevArrow),
 	//стрелка next
-	next = document.querySelector('.offer__slider-next'),
+	next = document.querySelector(nextArrow),
 	//номер слайдера
-	total = document.querySelector('#total'),
+	total = document.querySelector(totalCounter),
 	//блок, отображающий текущий слайд
-	current = document.querySelector('#current');
+	current = document.querySelector(currentCounter);
 //index, определяющий текущее положение в слайдере с начальным положением 1
 let slideIndex = 1;
 
@@ -745,9 +747,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 //TIMER
-	function timer() {
-		//Создадим переменную, определяющую deadline
-	const deadline = '2024-05-11'
+	//аргументы в функции позволят менять данные динамически вместо переменной const deadline
+function timer(id, deadline) {
 	//Создадим функцию, которая будет получать разницу
 	//между deadline и текущей датой
 	function getTimeRemaining(endtime) {
@@ -816,9 +817,9 @@ __webpack_require__.r(__webpack_exports__);
 		}
 	}
 	//вызываем функцию с селектором и переменной
-	setClock('.timer', deadline);
+	setClock(id, deadline);
 
-	}
+}
 	
 	//экспортируем эту функцию в стандартах ES6
 	/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (timer);
@@ -969,12 +970,22 @@ window.addEventListener('DOMContentLoaded', () => {
 	//modalSelector - Селектор для самого модального окна.
 	//modalTimerId - Идентификатор таймера, который используется для автоматического открытия модального окна через определенное время.
 	(0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('[data-modal]', '.modal', modalTimerId);
-	(0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])();
+	//в качестве аргументов устанавливаем селектор таймера и дату
+	(0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__["default"])('.timer', '2025-05-20');
 	(0,_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])();
 	(0,_modules_calculator__WEBPACK_IMPORTED_MODULE_4__["default"])();
 	//modalTimerId - Идентификатор таймера, который может использоваться для управления временем открытия модального окна.
 	(0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__["default"])('form', modalTimerId);
-	(0,_modules_slider__WEBPACK_IMPORTED_MODULE_6__["default"])(); 		
+	//передаем объект, содержащий настройки, которые деструктуризируются в файле slider.js
+	//порядок аргументов в объекте не важен
+	(0,_modules_slider__WEBPACK_IMPORTED_MODULE_6__["default"])({
+		container: '.offer__slider',
+		nextArrow: '.offer__slider-next',
+		slide: '.offer__slide',
+		prevArrow: '.offer__slider-prev',
+		totalCounter: '#total',
+		currentCounter: '#current'
+	}); 		
 });
 //сборщик webpack запускаем прописав в терминале npx webpack
 //добавить второй терминал можно нажав на +
