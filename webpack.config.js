@@ -17,5 +17,26 @@ module.exports = {
   //хранит инфу об исходниках и расположении файлов
   devtool: "source-map",
   //модули и их настройка
-  module: {}
+  module: {
+    //правила для определенных файлов
+    rules: [
+      {
+        test: /\.m?js$/,
+        //исключение
+        exclude: /(node_modules|bower_components)/,
+        //описываем как и что используем
+        use: {
+          loader: 'babel-loader',
+          options: {
+            //presets можно допольнительно настроить при необходимости
+            presets: [['@babel/preset-env', {
+              debug: true,
+              corejs: 3,
+              useBuiltIns: "usage"
+            }]]
+          }
+        }
+      }
+    ]
+  }
 };
